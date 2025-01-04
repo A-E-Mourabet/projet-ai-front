@@ -5,8 +5,8 @@ pipeline {
         // Define environment variables for your GitHub and Vercel details
         GITHUB_REPO = 'https://github.com/A-E-Mourabet/projet-ai-front.git'
         VERCEL_TOKEN = credentials('vercel-key') // Store Vercel token as a Jenkins credential
-        VERCEL_PROJECT_NAME = 'your-vercel-project'
-        VERCEL_ORG_ID = 'your-vercel-org-id' // Optional if needed
+        VERCEL_PROJECT_NAME = 'projet-ai-front-11'
+        VERCEL_ORG_ID = 'aews-projects' // Optional if needed
     }
 
     stages {
