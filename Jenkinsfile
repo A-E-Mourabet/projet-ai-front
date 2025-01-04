@@ -2,41 +2,38 @@ pipeline {
     agent any
 
     environment {
-        VERCEL_TOKEN = credentials('vercel-token') // Replace 'vercel-token' with your Vercel API token ID
+        // Define environment variables for your GitHub and Vercel details
+        GITHUB_REPO = 'https://github.com/your-username/your-repository.git'
+        VERCEL_TOKEN = credentials('vercel-key') // Store Vercel token as a Jenkins credential
+        VERCEL_PROJECT_NAME = 'your-vercel-project'
+        VERCEL_ORG_ID = 'your-vercel-org-id' // Optional if needed
     }
 
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                // Checkout your GitHub repository
+                git branch: 'main', url: "${GITHUB_REPO}"
             }
         }
 
         stage('Install Dependencies') {
             steps {
                 script {
-                    // Use NodeJS Plugin
-                    nodejs('nodejs-setup') { // Replace 'nodejs-setup' with your NodeJS installation name in Jenkins
+                    // If it's a Node.js app, install dependencies using npm
+                    if (fileExists('package.json')) {
                         sh 'npm install'
                     }
                 }
             }
         }
 
-        stage('Run Tests') {
+        stage('Build') {
             steps {
                 script {
-                    nodejs('nodejs-setup') {
-                        sh 'npm test'
-                    }
-                }
-            }
-        }
-
-        stage('Build Project') {
-            steps {
-                script {
-                    nodejs('nodejs-setup') {
+                    // Build your project if necessary (e.g., for Angular, React, etc.)
+                    // For example, for a React app:
+                    if (fileExists('package.json')) {
                         sh 'npm run build'
                     }
                 }
@@ -46,25 +43,22 @@ pipeline {
         stage('Deploy to Vercel') {
             steps {
                 script {
-                    sh '''
-                    # Deploy to Vercel using CLI
-                    npm install -g vercel
-                    vercel --token=$VERCEL_TOKEN --prod
-                    '''
+                    // Authenticate with Vercel using the Vercel token
+                    sh 'vercel login --token $VERCEL_TOKEN'
+                    
+                    // Deploy to Vercel (this will trigger the Vercel deployment)
+                    sh 'vercel --prod --token $VERCEL_TOKEN --confirm --scope $VERCEL_ORG_ID --project $VERCEL_PROJECT_NAME'
                 }
             }
         }
     }
 
     post {
-        always {
-            echo 'Pipeline completed!'
-        }
         success {
-            echo 'Pipeline succeeded!'
+            echo 'Deployment to Vercel was successful!'
         }
         failure {
-            echo 'Pipeline failed!'
+            echo 'Deployment to Vercel failed.'
         }
     }
 }
