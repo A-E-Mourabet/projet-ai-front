@@ -1,0 +1,14 @@
+{
+  "name": "projet-ai-front-11",
+  "scope": "aews-projects",
+  "builds": [
+    {
+      "src": "src/**/*",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "framework": "angular"
+}
