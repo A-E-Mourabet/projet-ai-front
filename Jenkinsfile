@@ -45,7 +45,11 @@ pipeline {
                     // Authenticate with Vercel using the Vercel token
                   withCredentials([string(credentialsId: 'vercel-key', variable: 'vercel-key')]) {
                         // Deploy the project to Vercel
-                        bat "vercel --token %VERCEL_TOKEN% --prod --yes --cwd dist/front-end "
+                    bat"""
+                     cd dist\\front-end
+                     vercel --token %VERCEL_TOKEN% --prod --yes
+                    """
+                        //bat "vercel --token %VERCEL_TOKEN% --prod --yes --cwd dist/front-end "
                     }
                     //bat 'vercel login --token %VERCEL_TOKEN%'
                     
