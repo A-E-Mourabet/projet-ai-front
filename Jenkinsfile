@@ -43,13 +43,12 @@ pipeline {
             steps {
                 script {
                     // Authenticate with Vercel using the Vercel token
-                  withCredentials([string(credentialsId: 'vercel-key', variable: 'vercel-key')]) {
-    bat "vercel --token %VERCEL_TOKEN% --prod--confirm --scope %VERCEL_ORG_ID% --project %VERCEL_PROJECT_NAME%"
-}
-                    //bat 'vercel login --token %VERCEL_TOKEN%'
+                  //withCredentials([string(credentialsId: 'vercel-key', variable: 'vercel-key')]) {
+    //bat "vercel --token %VERCEL_TOKEN% --prod--confirm --scope %VERCEL_ORG_ID% --project %VERCEL_PROJECT_NAME%"}
+                    bat 'vercel login --token %VERCEL_TOKEN%'
                     
                     // Deploy to Vercel (this will trigger the Vercel deployment)
-                    //bat 'vercel --prod --token %VERCEL_TOKEN% --confirm --scope %VERCEL_ORG_ID% --project %VERCEL_PROJECT_NAME%'
+                    bat 'vercel --prod --token %VERCEL_TOKEN% --confirm --scope %VERCEL_ORG_ID% --project %VERCEL_PROJECT_NAME%'
                 }
             }
         }
