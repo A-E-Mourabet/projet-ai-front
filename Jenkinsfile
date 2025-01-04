@@ -43,7 +43,7 @@ pipeline {
             steps {
                 script {
                     // Authenticate with Vercel using the Vercel token
-                  withCredentials([string(credentialsId: 'VERCEL_TOKEN', variable: 'VERCEL_TOKEN')]) {
+                  withCredentials([string(credentialsId: 'vercel-key', variable: 'vercel-key')]) {
     bat "vercel --token %VERCEL_TOKEN% --prod--confirm --scope %VERCEL_ORG_ID% --project %VERCEL_PROJECT_NAME%"
 }
                     //bat 'vercel login --token %VERCEL_TOKEN%'
