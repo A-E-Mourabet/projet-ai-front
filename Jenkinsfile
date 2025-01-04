@@ -46,7 +46,7 @@ pipeline {
                   withCredentials([string(credentialsId: 'vercel-key', variable: 'vercel-key')]) {
                         // Deploy the project to Vercel
 
-                     bat "vercel.cmd compile --token %VERCEL_TOKEN% --prod --yes"
+                     bat "vercel.cmd deploy --token %VERCEL_TOKEN% --prod --yes"
                     
                         //bat "vercel --token %VERCEL_TOKEN% --prod --yes --cwd dist/front-end "
                     }
