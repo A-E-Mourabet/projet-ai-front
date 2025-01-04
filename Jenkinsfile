@@ -13,28 +13,27 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout your GitHub repository
-                git branch: 'main', url: "${GITHUB_REPO}"
+                bat 'git clone ${GITHUB_REPO}'
             }
         }
 
         stage('Install Dependencies') {
             steps {
                 script {
-                    // If it's a Node.js app, install dependencies using npm
+                    // If it's an Angular app, install dependencies using npm
                     if (fileExists('package.json')) {
-                        sh 'npm install'
+                        bat 'npm install'
                     }
                 }
             }
         }
 
-        stage('Build') {
+        stage('Build Angular Project') {
             steps {
                 script {
-                    // Build your project if necessary (e.g., for Angular, React, etc.)
-                    // For example, for a React app:
-                    if (fileExists('package.json')) {
-                        sh 'npm run build'
+                    // Build the Angular project using Angular CLI
+                    if (fileExists('angular.json')) {
+                        bat 'npm run build -- --prod'
                     }
                 }
             }
@@ -44,10 +43,10 @@ pipeline {
             steps {
                 script {
                     // Authenticate with Vercel using the Vercel token
-                    sh 'vercel login --token $VERCEL_TOKEN'
+                    bat 'vercel login --token %VERCEL_TOKEN%'
                     
                     // Deploy to Vercel (this will trigger the Vercel deployment)
-                    sh 'vercel --prod --token $VERCEL_TOKEN --confirm --scope $VERCEL_ORG_ID --project $VERCEL_PROJECT_NAME'
+                    bat 'vercel --prod --token %VERCEL_TOKEN% --confirm --scope %VERCEL_ORG_ID% --project %VERCEL_PROJECT_NAME%'
                 }
             }
         }
