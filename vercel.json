@@ -3,7 +3,7 @@
   "scope": "aews-projects",
   "builds": [
     {
-      "src": "src/**/*",
+      "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
         "distDir": "dist"
