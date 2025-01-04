@@ -23,7 +23,6 @@ pipeline {
                     // If it's an Angular app, install dependencies using npm
                     if (fileExists('package.json')) {
                         bat 'npm install'
-                        bat 'npm install -g vercel'
                     }
                 }
             }
