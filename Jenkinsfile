@@ -54,7 +54,7 @@ pipeline {
                     
                     // Deploy to Vercel (this will trigger the Vercel deployment)
                     //bat 'vercel --prod --token %VERCEL_TOKEN% --confirm --scope %VERCEL_ORG_ID% --project %VERCEL_PROJECT_NAME%'
-
+                        bat 'npm install -g vercel'
                         bat """
                             cd %WORKSPACE%
                             "${NPM_PATH}\\vercel.cmd" deploy --token %VERCEL_TOKEN% --prod --confirm > vercel_output.txt
