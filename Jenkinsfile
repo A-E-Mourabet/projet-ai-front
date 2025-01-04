@@ -6,7 +6,7 @@ pipeline {
         GITHUB_REPO = 'https://github.com/A-E-Mourabet/projet-ai-front.git'
         VERCEL_TOKEN = credentials('vercel-key') // Store Vercel token as a Jenkins credential
         VERCEL_PROJECT_NAME = 'projet-ai-front-11'
-       //VERCEL_PROJECT_ID = credentials('VERCEL_PROJECT_ID')
+        NPM_PATH = 'C:\\ProgramData\\Jenkins\\.jenkins\\npm'
     }
 
     stages {
@@ -43,18 +43,33 @@ pipeline {
             steps {
                 script {
                     // Authenticate with Vercel using the Vercel token
-                  withCredentials([string(credentialsId: 'vercel-key', variable: 'vercel-key')]) {
+                  //withCredentials([string(credentialsId: 'vercel-key', variable: 'vercel-key')]) {
                         // Deploy the project to Vercel
-                    bat"""
-                     cd dist\\front-end
-                     vercel --token %VERCEL_TOKEN% --prod --yes
-                    """
+
+                     //bat "vercel --token %VERCEL_TOKEN% --prod --yes"
+                    
                         //bat "vercel --token %VERCEL_TOKEN% --prod --yes --cwd dist/front-end "
-                    }
+                    //}
                     //bat 'vercel login --token %VERCEL_TOKEN%'
                     
                     // Deploy to Vercel (this will trigger the Vercel deployment)
                     //bat 'vercel --prod --token %VERCEL_TOKEN% --confirm --scope %VERCEL_ORG_ID% --project %VERCEL_PROJECT_NAME%'
+
+                        bat """
+                            cd %WORKSPACE%
+                            "${NPM_PATH}\\vercel.cmd" deploy --token %VERCEL_TOKEN% --prod --confirm > vercel_output.txt
+
+                            echo "=== Sortie du déploiement ==="
+                            type vercel_output.txt
+
+                            echo "=== Recherche URL ==="
+                            findstr /C:"Production:" vercel_output.txt > url.txt
+
+                            echo "=== URL trouvée ==="
+                            type url.txt
+                        """
+
+                  
                 }
             }
         }
