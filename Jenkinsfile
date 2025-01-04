@@ -33,7 +33,7 @@ pipeline {
                 script {
                     // Build the Angular project using Angular CLI
                     if (fileExists('angular.json')) {
-                        bat 'npm run build -- --prod'
+                        bat 'npm run build --prod'
                     }
                 }
             }
