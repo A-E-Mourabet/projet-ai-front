@@ -13,7 +13,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout your GitHub repository
-                bat 'git clone ${GITHUB_REPO}'
+                git branch: 'main', url: "${GITHUB_REPO}"
             }
         }
 
